@@ -11,36 +11,36 @@ def isItValid(hull, rect):
     if ratio >= 0.8:
         return False
     
-    center = rect[1] + rect[-1] / 2.0
+    center = rect[1] + rect[-1] / 2.0 
     above_center = []
     below_center = []
     
     
-    for contour in hull:
+    for contour in hull:        # assess the position of the vertices in correlation to the y center of the figure
         for point in contour:
             if point[1] <= center:
                 above_center.append(point[0])
-            else:
+            else:                                   
                 below_center.append(point[0])
     try:        
         most_left = below_center[0]
-        most_right = below_center[0]
+        most_right = below_center[0]    # if an object has either no vertices aboe or underneath the center, it can't possibly be a cone
     except(IndexError):
         return False
     
-    for point in below_center:
+    for point in below_center:  # assess the furthest vertices at the base of the possible cone
         if point < most_left:
             most_left = point
         if point > most_right:
             most_right = point
     
-    for point in above_center:
-        if point <= most_left or point >= most_right:
+    for point in above_center:                          # if the vertices at the top of the figure are wider than the widest at the base, they're not converging upwards
+        if point <= most_left or point >= most_right:   # hence they're not cones
             return False
     
     return True
 
-def removeInner(cone_list : list):
+def removeInner(cone_list : list):    # the function aims to fix the commonly occuring inner contours with about the same shape and size 
     cones = []
     for i in range(len(cone_list)):
         
@@ -52,19 +52,19 @@ def removeInner(cone_list : list):
             first_moments = cv.moments(cone_list[i])
             second_moments = cv.moments(cone_list[j])
 
-            first_centroid = (first_moments["m10"] / first_moments["m00"], first_moments["m01"] / first_moments["m00"])
+            first_centroid = (first_moments["m10"] / first_moments["m00"], first_moments["m01"] / first_moments["m00"])     # find the center of gravity
             second_centroid = (second_moments["m10"] / second_moments["m00"], second_moments["m01"] / second_moments["m00"])
 
-            if cv.norm(np.array(first_centroid), np.array(second_centroid), cv.NORM_L2) <= 5:
-                flag = 1
-        if flag != 1:
+            if cv.norm(np.array(first_centroid), np.array(second_centroid), cv.NORM_L2) <= 5:   # if the euclidean distance of the center of gravity of one
+                flag = 1                                                                        # object with any others' is less than 5px, the shape is assessing an
+        if flag != 1:                                                                           # inner contour
             cones.append(cone_list[i])
             
     return cones
 
-def assessColor(hsv, contour, bw_mask):
-    mask = np.zeros(image.shape[:2]).astype(np.uint8)
-    cv.drawContours(mask, [contour], 0, 255, -1)
+def assessColor(hsv, contour, bw_mask):                 # the idea is to create a mask of the cones with removed black and white lines, to have an average value of 
+    mask = np.zeros(hsv.shape[:2]).astype(np.uint8)     # the color of the cones
+    cv.drawContours(mask, [contour], 0, 255, -1)        
     mask = cv.bitwise_and(mask, cv.bitwise_not(bw_mask))
     hue = cv.mean(hsv, mask=mask)[0]
     
