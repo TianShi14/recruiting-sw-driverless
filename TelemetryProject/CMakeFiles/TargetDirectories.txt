@@ -1,0 +1,4 @@
+C:/Users/Angelo Nutu/OneDrive/Desktop/Driverless_Projects/recruiting-sw-driverless/TelemetryProject/CMakeFiles/Project2.dir
+C:/Users/Angelo Nutu/OneDrive/Desktop/Driverless_Projects/recruiting-sw-driverless/TelemetryProject/CMakeFiles/project_2.dir
+C:/Users/Angelo Nutu/OneDrive/Desktop/Driverless_Projects/recruiting-sw-driverless/TelemetryProject/CMakeFiles/ALL_BUILD.dir
+C:/Users/Angelo Nutu/OneDrive/Desktop/Driverless_Projects/recruiting-sw-driverless/TelemetryProject/CMakeFiles/ZERO_CHECK.dir
