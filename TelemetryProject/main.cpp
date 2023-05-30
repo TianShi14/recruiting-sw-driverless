@@ -6,17 +6,24 @@
 #include <unordered_map>
 #include <ctime>
 
-#include "logger.h"
-
 using namespace std;
 
-extern "C"{
+extern "C" {
     #include "fake_receiver.h"
 }
+#include "logger.h"
 
-int main(void){
+int main(void) {
 
     cout << "Welcome to Project 2" << endl;
+
+    Logger logger = Logger();
+
+    if (open_can("../candump.log") == 0) {
+        logger.execute();
+    }
+
+    close_can();
 
     return 0;
 }

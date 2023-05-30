@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <io.h>
+#include <time.h>
+#include <windows.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -77,7 +79,7 @@ int can_receive(char message[MAX_CAN_MESSAGE_SIZE]){
     if(current_line_count == line_count)
         fseek(can, 0, SEEK_SET);
     
-    usleep((rand()%50 + 1)*1000);
+    Sleep((rand() % 50 + 1) * 10);
 
     return bytes_received;
 }
